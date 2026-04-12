@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Craig & Olivia</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@300;400&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --black: #0f0f0f;
+      --white: #faf9f7;
+      --grey: #888;
+      --border: #d8d5d0;
+    }
+
+    html, body {
+      height: 100%;
+    }
+
+    body {
+      background-color: var(--white);
+      color: var(--black);
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      overflow: hidden;
+    }
+
+    /* Decorative corner lines */
+    body::before,
+    body::after {
+      content: '';
+      position: fixed;
+      width: 120px;
+      height: 120px;
+      border-color: var(--border);
+      border-style: solid;
+      pointer-events: none;
+      z-index: 0;
+    }
+    body::before {
+      top: 28px;
+      left: 28px;
+      border-width: 1px 0 0 1px;
+    }
+    body::after {
+      bottom: 28px;
+      right: 28px;
+      border-width: 0 1px 1px 0;
+    }
+
+    /* Additional corners via pseudo elements on a wrapper */
+    .corner-tr,
+    .corner-bl {
+      position: fixed;
+      width: 120px;
+      height: 120px;
+      border-color: var(--border);
+      border-style: solid;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .corner-tr {
+      top: 28px;
+      right: 28px;
+      border-width: 1px 1px 0 0;
+    }
+    .corner-bl {
+      bottom: 28px;
+      left: 28px;
+      border-width: 0 0 1px 1px;
+    }
+
+    /* Main content */
+    .container {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      animation: fadeUp 1.2s ease both;
+    }
+
+    .eyebrow {
+      font-family: 'Jost', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 400;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--grey);
+      margin-bottom: 1.8rem;
+      animation: fadeUp 1.2s ease 0.1s both;
+    }
+
+    .names {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3.2rem, 10vw, 6.5rem);
+      font-weight: 300;
+      line-height: 1;
+      letter-spacing: -0.01em;
+      color: var(--black);
+      animation: fadeUp 1.2s ease 0.2s both;
+    }
+
+    .names .amp {
+      font-style: italic;
+      font-weight: 300;
+      padding: 0 0.15em;
+    }
+
+    .divider {
+      width: 40px;
+      height: 1px;
+      background-color: var(--border);
+      margin: 2rem auto;
+      animation: expandWidth 1s ease 0.5s both;
+    }
+
+    .date {
+      font-family: 'Jost', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 300;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--grey);
+      animation: fadeUp 1.2s ease 0.5s both;
+    }
+
+    .buttons {
+      margin-top: 3rem;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      animation: fadeUp 1.2s ease 0.7s both;
+    }
+
+    .btn {
+      display: inline-block;
+      text-decoration: none;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 400;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      padding: 1rem 2.4rem;
+      border-radius: 999px;
+      transition: background 0.3s ease, color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background-color: var(--black);
+      color: var(--white);
+      border: 1px solid var(--black);
+    }
+
+    .btn-primary:hover {
+      background-color: transparent;
+      color: var(--black);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    }
+
+    .btn-secondary {
+      background-color: transparent;
+      color: var(--black);
+      border: 1px solid var(--black);
+    }
+
+    .btn-secondary:hover {
+      background-color: var(--black);
+      color: var(--white);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+    }
+
+    /* Animations */
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(18px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes expandWidth {
+      from {
+        width: 0;
+        opacity: 0;
+      }
+      to {
+        width: 40px;
+        opacity: 1;
+      }
+    }
+
+    /* Responsive */
+    @media (max-width: 480px) {
+      body::before, body::after,
+      .corner-tr, .corner-bl {
+        width: 60px;
+        height: 60px;
+        top: 16px;
+        left: 16px;
+      }
+      .corner-tr { top: 16px; right: 16px; left: auto; }
+      .corner-bl { bottom: 16px; left: 16px; top: auto; }
+      body::after { bottom: 16px; right: 16px; top: auto; left: auto; }
+
+      .buttons {
+        flex-direction: column;
+        width: 100%;
+        max-width: 260px;
+      }
+      .btn {
+        width: 100%;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="corner-tr"></div>
+  <div class="corner-bl"></div>
+
+  <main class="container">
+    <p class="eyebrow">You are invited</p>
+
+    <h1 class="names">
+      Craig <span class="amp">&amp;</span> Olivia
+    </h1>
+
+    <div class="divider"></div>
+
+    <p class="date">Save the date &nbsp;·&nbsp; 2025</p>
+
+    <div class="buttons">
+      <a href="#" class="btn btn-primary">RSVP</a>
+      <a href="#" class="btn btn-secondary">Registry</a>
+    </div>
+  </main>
+
+</body>
+</html>
