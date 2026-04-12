@@ -98,14 +98,7 @@
     }
 
     .eyebrow {
-      font-family: 'Jost', sans-serif;
-      font-size: 0.65rem;
-      font-weight: 400;
-      letter-spacing: 0.35em;
-      text-transform: uppercase;
-      color: var(--grey);
-      margin-bottom: 1.8rem;
-      animation: fadeUp 1.2s ease 0.1s both;
+      display: none;
     }
 
     .names {
@@ -133,17 +126,65 @@
     }
 
     .date {
-      font-family: 'Jost', sans-serif;
-      font-size: 0.7rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1.15rem;
       font-weight: 300;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
       color: var(--grey);
       animation: fadeUp 1.2s ease 0.5s both;
     }
 
+    .events {
+      margin-top: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      animation: fadeUp 1.2s ease 0.6s both;
+    }
+
+    .event {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.3rem;
+      padding: 1rem 0;
+    }
+
+    .event-time {
+      font-family: 'Jost', sans-serif;
+      font-size: 0.62rem;
+      font-weight: 400;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--grey);
+    }
+
+    .event-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem;
+      font-weight: 400;
+      letter-spacing: 0.02em;
+      color: var(--black);
+    }
+
+    .event-location {
+      font-family: 'Jost', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 300;
+      letter-spacing: 0.08em;
+      color: var(--grey);
+      line-height: 1.6;
+    }
+
+    .event-sep {
+      width: 1px;
+      height: 28px;
+      background: var(--border);
+      margin: 0 auto;
+    }
+
     .buttons {
-      margin-top: 3rem;
+      margin-top: 2.4rem;
       display: flex;
       gap: 1rem;
       flex-wrap: wrap;
@@ -245,15 +286,29 @@
   <div class="corner-bl"></div>
 
   <main class="container">
-    <p class="eyebrow">You are invited</p>
-
     <h1 class="names">
       Craig <span class="amp">&amp;</span> Olivia
     </h1>
 
     <div class="divider"></div>
 
-    <p class="date">Save the date &nbsp;·&nbsp; 2025</p>
+    <p class="date">Together with their families</p>
+
+    <div class="events">
+      <div class="event">
+        <span class="event-time">Ceremony &nbsp;·&nbsp; 4:00 PM</span>
+        <span class="event-title">Lynch Park Rose Garden</span>
+        <span class="event-location">Beverly, Massachusetts</span>
+      </div>
+
+      <div class="event-sep"></div>
+
+      <div class="event">
+        <span class="event-time">Reception &nbsp;·&nbsp; 5:00 PM</span>
+        <span class="event-title">Beverly Cove Community Center</span>
+        <span class="event-location">19 E Corning St, Beverly, MA 01915</span>
+      </div>
+    </div>
 
     <div class="buttons">
       <a href="#" class="btn btn-primary">RSVP</a>
