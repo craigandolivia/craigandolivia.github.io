@@ -30,7 +30,7 @@
       align-items: center;
       justify-content: center;
       min-height: 100vh;
-      overflow: hidden;
+      overflow-x: hidden;
     }
 
     /* ── Flora ─────────────────────────────── */
@@ -151,41 +151,41 @@
     <path d="M -34,46 C -38,56 -38,68 -32,74"      fill="none" stroke="#3c2408" stroke-width="1.2" stroke-linecap="round"/>
     <path d="M -34,46 C -24,54 -22,66 -26,76"      fill="none" stroke="#3c2408" stroke-width="1.2" stroke-linecap="round"/>
 
-    <!-- BRANCH B — sweeps HORIZONTAL-LEFT; ends around (-52,46) -->
-    <path d="M 74,38 C 52,26 28,18 8,20 C -6,22 -16,34 -20,52" fill="none" stroke="#4c2e10" stroke-width="5" stroke-linecap="round"/>
+    <!-- BRANCH B — sweeps HORIZONTAL-LEFT (20% shorter) -->
+    <path d="M 74,38 C 52,26 28,18 8,20 C -2,22 -10,32 -13,48" fill="none" stroke="#4c2e10" stroke-width="5" stroke-linecap="round"/>
     <!-- B1: upward from (8,20) -->
-    <path d="M 8,20 C -2,8 -10,-2 -12,6"             fill="none" stroke="#3c2408" stroke-width="2.4" stroke-linecap="round"/>
-    <path d="M -12,6  C -18,-2 -24,-6 -24,4"          fill="none" stroke="#3c2408" stroke-width="1.4" stroke-linecap="round"/>
-    <path d="M -12,6  C -8,-4 -4,-12 -2,-6"           fill="none" stroke="#3c2408" stroke-width="1.4" stroke-linecap="round"/>
-    <!-- B2: left from (-20,52) -->
-    <path d="M -20,52 C -30,46 -40,42 -44,52 C -46,60 -40,68 -30,68" fill="none" stroke="#3c2408" stroke-width="2"   stroke-linecap="round"/>
-    <path d="M -44,52 C -52,46 -58,44 -58,54"          fill="none" stroke="#3c2408" stroke-width="1.4" stroke-linecap="round"/>
-    <path d="M -30,68 C -34,78 -34,90 -28,96"          fill="none" stroke="#3c2408" stroke-width="1.2" stroke-linecap="round"/>
+    <path d="M 8,20 C -1,9 -8,0 -9,7"                fill="none" stroke="#3c2408" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M -9,7  C -14,0 -19,-4 -19,5"            fill="none" stroke="#3c2408" stroke-width="1.4" stroke-linecap="round"/>
+    <path d="M -9,7  C -6,-2 -2,-9 -1,-4"             fill="none" stroke="#3c2408" stroke-width="1.4" stroke-linecap="round"/>
+    <!-- B2: left from (-13,48) -->
+    <path d="M -13,48 C -22,43 -31,39 -35,48 C -37,55 -32,62 -24,62" fill="none" stroke="#3c2408" stroke-width="2" stroke-linecap="round"/>
+    <path d="M -35,48 C -41,43 -46,41 -46,50"         fill="none" stroke="#3c2408" stroke-width="1.4" stroke-linecap="round"/>
+    <path d="M -24,62 C -27,71 -27,80 -22,85"         fill="none" stroke="#3c2408" stroke-width="1.2" stroke-linecap="round"/>
     <!-- B3: short downward tip -->
-    <path d="M -20,52 C -24,64 -22,78 -18,90"          fill="none" stroke="#3c2408" stroke-width="1.8" stroke-linecap="round"/>
-    <path d="M -18,90 C -22,100 -22,112 -16,120"       fill="none" stroke="#3c2408" stroke-width="1.2" stroke-linecap="round"/>
-    <path d="M -18,90 C -12,100 -10,112 -12,124"       fill="none" stroke="#3c2408" stroke-width="1.2" stroke-linecap="round"/>
+    <path d="M -13,48 C -17,58 -15,70 -12,80"         fill="none" stroke="#3c2408" stroke-width="1.8" stroke-linecap="round"/>
+    <path d="M -12,80 C -15,88 -15,98 -10,104"        fill="none" stroke="#3c2408" stroke-width="1.2" stroke-linecap="round"/>
+    <path d="M -12,80 C -7,88 -5,98 -7,106"           fill="none" stroke="#3c2408" stroke-width="1.2" stroke-linecap="round"/>
 
-    <!-- BRANCH C — sweeps UPWARD from near trunk end; peaks ~(148,-22) -->
-    <path d="M 124,70 C 130,50 136,24 140,4 C 142,-8 140,-18 134,-24" fill="none" stroke="#4c2e10" stroke-width="4.5" stroke-linecap="round"/>
-    <!-- C1: right-up from (140,4) -->
-    <path d="M 140,4  C 150,-6 158,-16 154,-22"        fill="none" stroke="#3c2408" stroke-width="2.4" stroke-linecap="round"/>
-    <path d="M 154,-22 C 160,-30 164,-38 158,-36"      fill="none" stroke="#3c2408" stroke-width="1.4" stroke-linecap="round"/>
-    <path d="M 154,-22 C 148,-32 144,-40 148,-38"      fill="none" stroke="#3c2408" stroke-width="1.4" stroke-linecap="round"/>
-    <!-- C2: left-up from (134,-24) -->
-    <path d="M 134,-24 C 124,-34 114,-40 112,-30"      fill="none" stroke="#3c2408" stroke-width="2"   stroke-linecap="round"/>
-    <path d="M 112,-30 C 104,-38 98,-42 98,-32"        fill="none" stroke="#3c2408" stroke-width="1.4" stroke-linecap="round"/>
-    <path d="M 112,-30 C 118,-40 120,-48 114,-46"      fill="none" stroke="#3c2408" stroke-width="1.4" stroke-linecap="round"/>
-    <!-- C3: right diverge from (134,-24) -->
-    <path d="M 134,-24 C 142,-34 146,-42 142,-42"      fill="none" stroke="#3c2408" stroke-width="1.4" stroke-linecap="round"/>
-    <!-- C4: mid twig from (136,24) -->
-    <path d="M 136,24 C 148,14 158,6 158,12"           fill="none" stroke="#3c2408" stroke-width="1.8" stroke-linecap="round"/>
-    <path d="M 158,12 C 164,4 168,-4 164,-8"           fill="none" stroke="#3c2408" stroke-width="1.2" stroke-linecap="round"/>
+    <!-- BRANCH C — sweeps UPWARD from near trunk end (20% shorter) -->
+    <path d="M 124,70 C 129,53 134,28 137,10 C 139,-1 138,-10 133,-16" fill="none" stroke="#4c2e10" stroke-width="4.5" stroke-linecap="round"/>
+    <!-- C1: right-up from (137,10) -->
+    <path d="M 137,10  C 146,1 152,-8 149,-14"        fill="none" stroke="#3c2408" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M 149,-14 C 154,-21 157,-28 152,-27"     fill="none" stroke="#3c2408" stroke-width="1.4" stroke-linecap="round"/>
+    <path d="M 149,-14 C 144,-23 140,-30 144,-29"     fill="none" stroke="#3c2408" stroke-width="1.4" stroke-linecap="round"/>
+    <!-- C2: left-up from (133,-16) -->
+    <path d="M 133,-16 C 124,-25 115,-30 113,-21"     fill="none" stroke="#3c2408" stroke-width="2"   stroke-linecap="round"/>
+    <path d="M 113,-21 C 106,-28 101,-32 101,-23"     fill="none" stroke="#3c2408" stroke-width="1.4" stroke-linecap="round"/>
+    <path d="M 113,-21 C 118,-30 120,-37 115,-35"     fill="none" stroke="#3c2408" stroke-width="1.4" stroke-linecap="round"/>
+    <!-- C3: right diverge -->
+    <path d="M 133,-16 C 140,-25 143,-32 140,-32"     fill="none" stroke="#3c2408" stroke-width="1.4" stroke-linecap="round"/>
+    <!-- C4: mid twig from (134,28) -->
+    <path d="M 134,28 C 144,19 153,12 153,17"         fill="none" stroke="#3c2408" stroke-width="1.8" stroke-linecap="round"/>
+    <path d="M 153,17 C 158,10 162,3 159,0"           fill="none" stroke="#3c2408" stroke-width="1.2" stroke-linecap="round"/>
 
-    <!-- Short gentle drooping twig off trunk -->
-    <path d="M 58,26 C 54,44 50,66 48,84"              fill="none" stroke="#3c2408" stroke-width="2"   stroke-linecap="round"/>
-    <path d="M 48,84 C 42,94 40,106 42,118"            fill="none" stroke="#3c2408" stroke-width="1.2" stroke-linecap="round"/>
-    <path d="M 48,84 C 54,96 56,108 54,122"            fill="none" stroke="#3c2408" stroke-width="1.2" stroke-linecap="round"/>
+    <!-- Short gentle drooping twig off trunk (20% shorter) -->
+    <path d="M 58,26 C 54,42 50,60 48,74"             fill="none" stroke="#3c2408" stroke-width="2"   stroke-linecap="round"/>
+    <path d="M 48,74 C 43,83 41,93 43,102"            fill="none" stroke="#3c2408" stroke-width="1.2" stroke-linecap="round"/>
+    <path d="M 48,74 C 53,84 55,95 53,104"            fill="none" stroke="#3c2408" stroke-width="1.2" stroke-linecap="round"/>
 
     <!-- ══ MAPLE LEAVES — 67 ══ -->
     <!-- Corner/origin burst -->
@@ -300,36 +300,41 @@
     <path d="M 314,46 C 318,56 318,68 312,74"     fill="none" stroke="#3c2408" stroke-width="1.2" stroke-linecap="round"/>
     <path d="M 314,46 C 304,54 302,66 306,76"     fill="none" stroke="#3c2408" stroke-width="1.2" stroke-linecap="round"/>
 
-    <!-- BRANCH B — sweeps HORIZONTAL-RIGHT -->
-    <path d="M 206,38 C 228,26 252,18 272,20 C 286,22 296,34 300,52" fill="none" stroke="#4c2e10" stroke-width="5" stroke-linecap="round"/>
+    <!-- BRANCH B — sweeps HORIZONTAL-RIGHT (20% shorter) -->
+    <path d="M 206,38 C 228,26 252,18 272,20 C 282,22 290,32 293,48" fill="none" stroke="#4c2e10" stroke-width="5" stroke-linecap="round"/>
     <!-- B1 upward from (272,20) -->
-    <path d="M 272,20 C 282,8 290,-2 292,6"        fill="none" stroke="#3c2408" stroke-width="2.4" stroke-linecap="round"/>
-    <path d="M 292, 6 C 298,-2 304,-6 304,4"        fill="none" stroke="#3c2408" stroke-width="1.4" stroke-linecap="round"/>
-    <path d="M 292, 6 C 288,-4 284,-12 282,-6"      fill="none" stroke="#3c2408" stroke-width="1.4" stroke-linecap="round"/>
-    <!-- B2 right from (300,52) -->
-    <path d="M 300,52 C 310,46 320,42 324,52 C 326,60 320,68 310,68" fill="none" stroke="#3c2408" stroke-width="2"   stroke-linecap="round"/>
-    <path d="M 324,52 C 332,46 338,44 338,54"       fill="none" stroke="#3c2408" stroke-width="1.4" stroke-linecap="round"/>
-    <path d="M 310,68 C 314,78 314,90 308,96"       fill="none" stroke="#3c2408" stroke-width="1.2" stroke-linecap="round"/>
+    <path d="M 272,20 C 281,9 288,0 289,7"             fill="none" stroke="#3c2408" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M 289,7  C 294,0 299,-4 299,5"            fill="none" stroke="#3c2408" stroke-width="1.4" stroke-linecap="round"/>
+    <path d="M 289,7  C 285,-2 281,-9 281,-4"          fill="none" stroke="#3c2408" stroke-width="1.4" stroke-linecap="round"/>
+    <!-- B2 right from (293,48) -->
+    <path d="M 293,48 C 302,43 311,39 315,48 C 317,55 312,62 304,62" fill="none" stroke="#3c2408" stroke-width="2" stroke-linecap="round"/>
+    <path d="M 315,48 C 321,43 326,41 326,50"          fill="none" stroke="#3c2408" stroke-width="1.4" stroke-linecap="round"/>
+    <path d="M 304,62 C 307,71 307,80 302,85"          fill="none" stroke="#3c2408" stroke-width="1.2" stroke-linecap="round"/>
     <!-- B3 short drop -->
-    <path d="M 300,52 C 304,64 302,78 298,90"       fill="none" stroke="#3c2408" stroke-width="1.8" stroke-linecap="round"/>
-    <path d="M 298,90 C 302,100 302,112 296,120"    fill="none" stroke="#3c2408" stroke-width="1.2" stroke-linecap="round"/>
-    <path d="M 298,90 C 292,100 290,112 292,124"    fill="none" stroke="#3c2408" stroke-width="1.2" stroke-linecap="round"/>
+    <path d="M 293,48 C 297,58 295,70 292,80"          fill="none" stroke="#3c2408" stroke-width="1.8" stroke-linecap="round"/>
+    <path d="M 292,80 C 295,88 295,98 290,104"         fill="none" stroke="#3c2408" stroke-width="1.2" stroke-linecap="round"/>
+    <path d="M 292,80 C 287,88 285,98 287,106"         fill="none" stroke="#3c2408" stroke-width="1.2" stroke-linecap="round"/>
 
-    <!-- BRANCH C — sweeps UPWARD from near trunk end -->
-    <path d="M 156,70 C 150,50 144,24 140,4 C 138,-8 140,-18 146,-24" fill="none" stroke="#4c2e10" stroke-width="4.5" stroke-linecap="round"/>
-    <!-- C1 left-up from (140,4) -->
-    <path d="M 140, 4 C 130,-6 122,-16 126,-22"     fill="none" stroke="#3c2408" stroke-width="2.4" stroke-linecap="round"/>
-    <path d="M 126,-22 C 120,-30 116,-38 122,-36"   fill="none" stroke="#3c2408" stroke-width="1.4" stroke-linecap="round"/>
-    <path d="M 126,-22 C 132,-32 136,-40 132,-38"   fill="none" stroke="#3c2408" stroke-width="1.4" stroke-linecap="round"/>
-    <!-- C2 right-up from (146,-24) -->
-    <path d="M 146,-24 C 156,-34 166,-40 168,-30"   fill="none" stroke="#3c2408" stroke-width="2"   stroke-linecap="round"/>
-    <path d="M 168,-30 C 176,-38 182,-42 182,-32"   fill="none" stroke="#3c2408" stroke-width="1.4" stroke-linecap="round"/>
-    <path d="M 168,-30 C 162,-40 160,-48 166,-46"   fill="none" stroke="#3c2408" stroke-width="1.4" stroke-linecap="round"/>
+    <!-- BRANCH C — sweeps UPWARD from near trunk end (20% shorter) -->
+    <path d="M 156,70 C 151,53 146,28 143,10 C 141,-1 142,-10 147,-16" fill="none" stroke="#4c2e10" stroke-width="4.5" stroke-linecap="round"/>
+    <!-- C1 left-up from (143,10) -->
+    <path d="M 143,10  C 134,1 128,-8 131,-14"         fill="none" stroke="#3c2408" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M 131,-14 C 126,-21 123,-28 128,-27"      fill="none" stroke="#3c2408" stroke-width="1.4" stroke-linecap="round"/>
+    <path d="M 131,-14 C 136,-23 140,-30 136,-29"      fill="none" stroke="#3c2408" stroke-width="1.4" stroke-linecap="round"/>
+    <!-- C2 right-up from (147,-16) -->
+    <path d="M 147,-16 C 156,-25 165,-30 163,-21"      fill="none" stroke="#3c2408" stroke-width="2"   stroke-linecap="round"/>
+    <path d="M 163,-21 C 170,-28 175,-32 175,-23"      fill="none" stroke="#3c2408" stroke-width="1.4" stroke-linecap="round"/>
+    <path d="M 163,-21 C 158,-30 156,-37 161,-35"      fill="none" stroke="#3c2408" stroke-width="1.4" stroke-linecap="round"/>
     <!-- C3 diverge -->
-    <path d="M 146,-24 C 138,-34 134,-42 138,-42"   fill="none" stroke="#3c2408" stroke-width="1.4" stroke-linecap="round"/>
+    <path d="M 147,-16 C 140,-25 137,-32 140,-32"      fill="none" stroke="#3c2408" stroke-width="1.4" stroke-linecap="round"/>
     <!-- C4 mid twig -->
-    <path d="M 144,24 C 132,14 122,6 122,12"        fill="none" stroke="#3c2408" stroke-width="1.8" stroke-linecap="round"/>
-    <path d="M 122,12 C 116,4 112,-4 116,-8"        fill="none" stroke="#3c2408" stroke-width="1.2" stroke-linecap="round"/>
+    <path d="M 146,28 C 136,19 127,12 127,17"          fill="none" stroke="#3c2408" stroke-width="1.8" stroke-linecap="round"/>
+    <path d="M 127,17 C 122,10 118,3 121,0"            fill="none" stroke="#3c2408" stroke-width="1.2" stroke-linecap="round"/>
+
+    <!-- Short drooping twig (20% shorter) -->
+    <path d="M 222,26 C 226,42 230,60 232,74"          fill="none" stroke="#3c2408" stroke-width="2"   stroke-linecap="round"/>
+    <path d="M 232,74 C 237,83 239,93 237,102"         fill="none" stroke="#3c2408" stroke-width="1.2" stroke-linecap="round"/>
+    <path d="M 232,74 C 226,84 224,95 226,104"         fill="none" stroke="#3c2408" stroke-width="1.2" stroke-linecap="round"/>
 
     <!-- Acorns -->
     <g transform="translate(178,56)">
@@ -342,11 +347,6 @@
       <path d="M -5,-2 Q 0,-13 5,-2" fill="#5a3818"/>
       <line x1="0" y1="-13" x2="0" y2="-18" stroke="#5a3818" stroke-width="1.2" stroke-linecap="round"/>
     </g>
-
-    <!-- Short drooping twig -->
-    <path d="M 222,26 C 226,44 230,66 232,84"       fill="none" stroke="#3c2408" stroke-width="2"   stroke-linecap="round"/>
-    <path d="M 232,84 C 238,94 240,106 238,118"     fill="none" stroke="#3c2408" stroke-width="1.2" stroke-linecap="round"/>
-    <path d="M 232,84 C 226,96 224,108 226,122"     fill="none" stroke="#3c2408" stroke-width="1.2" stroke-linecap="round"/>
 
     <!-- ══ OAK LEAVES — 67 ══ -->
     <!-- Corner/origin burst -->
@@ -891,9 +891,9 @@
   </div>
 
   <div class="buttons">
-    <a href="https://docs.google.com/forms/d/e/1FAIpQLSdS3PqhtO1LpZfeKgQKULpo4iRfRZaJG4ymUss4hgQnXnSOMQ/viewform?usp=publish-editor" class="btn btn-primary">RSVP</a>
+    <a href="#" class="btn btn-primary">RSVP</a>
     <a href="#" class="btn btn-secondary">Registry</a>
-    <a href="#" class="btn btn-secondary">Lodging</a>
+    <a href="lodging.html" class="btn btn-secondary">Lodging</a>
   </div>
 </main>
 
