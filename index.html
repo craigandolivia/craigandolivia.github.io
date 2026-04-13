@@ -801,34 +801,42 @@
       </g>
 
       <!-- STEIN 2 — click to open password modal -->
-      <g transform="translate(200,94)" onclick="document.getElementById('love-modal').classList.add('open')"
+      <!-- Outer wrapper: NO transform here — just onclick + glow -->
+      <g onclick="document.getElementById('love-modal').classList.add('open')"
          style="cursor:pointer; pointer-events:all;">
-      <g transform="translate(200,94)">
-        <path d="M -11,0 C -12,-9 -12,-27 -11,-40 L 11,-40 C 12,-27 12,-9 11,0 Z" fill="#7888a8"/>
-        <path d="M -9,-2 C -10,-11 -10,-27 -9,-38" stroke="#9aacc0" stroke-width="2" fill="none" opacity=".45"/>
-        <ellipse cx="0" cy="0" rx="12" ry="2.8" fill="#6878a0"/>
-        <rect x="-10" y="-30" width="20" height="11" rx="1" fill="#2840a0" opacity=".72"/>
-        <line x1="-10" y1="-30" x2="10" y2="-30" stroke="#d0d8f0" stroke-width=".8" opacity=".6"/>
-        <line x1="-10" y1="-19" x2="10" y2="-19" stroke="#d0d8f0" stroke-width=".8" opacity=".6"/>
-        <circle cx="0" cy="-24.5" r="2" fill="#e0e8f8" opacity=".7"/>
-        <circle cx="-3" cy="-26" r="1.2" fill="#e0e8f8" opacity=".6"/>
-        <circle cx=" 3" cy="-26" r="1.2" fill="#e0e8f8" opacity=".6"/>
-        <circle cx="-3" cy="-23" r="1.2" fill="#e0e8f8" opacity=".6"/>
-        <circle cx=" 3" cy="-23" r="1.2" fill="#e0e8f8" opacity=".6"/>
-        <path d="M 11,-10 C 22,-10 22,-32 11,-32" fill="none" stroke="#7888a8" stroke-width="5.5" stroke-linecap="round"/>
-        <path d="M 11,-10 C 18,-10 18,-32 11,-32" fill="none" stroke="#9aacc0" stroke-width="2"   stroke-linecap="round"/>
-        <rect x="-12" y="-42" width="24" height="4" rx="1.5" fill="#a0a090"/>
-        <rect x="-12" y="-42" width="24" height="1.5" rx=".5" fill="#b8b8a8"/>
-        <circle cx="11" cy="-40" r="2.2" fill="#888880"/>
-        <path d="M 7,-42 C 7,-47 13,-47 13,-42 Z" fill="#a0a090"/>
-        <ellipse cx="-4" cy="-44" rx="5"   ry="3"   fill="#f0ede8"/>
-        <ellipse cx=" 3" cy="-43" rx="6"   ry="3.5" fill="#ece8e0"/>
-        <ellipse cx="-1" cy="-46" rx="4"   ry="2.5" fill="#f5f2ee"/>
-        <ellipse cx=" 5" cy="-45.5" rx="3.5" ry="2.5" fill="#ffffff" opacity=".8"/>
-        <path d="M 10,-38 C 11,-36 11,-33 10,-31" stroke="#ece8e0" stroke-width="3" fill="none" stroke-linecap="round"/>
-        <path d="M -10,-38 C -11,-36 -11,-34 -10,-32" stroke="#ece8e0" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-        <path d="M -9,-38 Q 0,-35 9,-38" fill="#c88808" opacity=".55"/>
-      </g>
+        <!-- Static soft glow behind the stein -->
+        <ellipse cx="200" cy="72" rx="20" ry="26"
+                 fill="none" stroke="#8070d0" stroke-width="6" opacity="0.18"/>
+        <ellipse cx="200" cy="72" rx="14" ry="18"
+                 fill="none" stroke="#a090e8" stroke-width="3" opacity="0.14"/>
+        <!-- Stein body at its correct table position -->
+        <g transform="translate(200,94)">
+          <path d="M -11,0 C -12,-9 -12,-27 -11,-40 L 11,-40 C 12,-27 12,-9 11,0 Z" fill="#7888a8"/>
+          <path d="M -9,-2 C -10,-11 -10,-27 -9,-38" stroke="#9aacc0" stroke-width="2" fill="none" opacity=".45"/>
+          <ellipse cx="0" cy="0" rx="12" ry="2.8" fill="#6878a0"/>
+          <rect x="-10" y="-30" width="20" height="11" rx="1" fill="#2840a0" opacity=".72"/>
+          <line x1="-10" y1="-30" x2="10" y2="-30" stroke="#d0d8f0" stroke-width=".8" opacity=".6"/>
+          <line x1="-10" y1="-19" x2="10" y2="-19" stroke="#d0d8f0" stroke-width=".8" opacity=".6"/>
+          <circle cx="0" cy="-24.5" r="2" fill="#e0e8f8" opacity=".7"/>
+          <circle cx="-3" cy="-26" r="1.2" fill="#e0e8f8" opacity=".6"/>
+          <circle cx=" 3" cy="-26" r="1.2" fill="#e0e8f8" opacity=".6"/>
+          <circle cx="-3" cy="-23" r="1.2" fill="#e0e8f8" opacity=".6"/>
+          <circle cx=" 3" cy="-23" r="1.2" fill="#e0e8f8" opacity=".6"/>
+          <path d="M 11,-10 C 22,-10 22,-32 11,-32" fill="none" stroke="#7888a8" stroke-width="5.5" stroke-linecap="round"/>
+          <path d="M 11,-10 C 18,-10 18,-32 11,-32" fill="none" stroke="#9aacc0" stroke-width="2"   stroke-linecap="round"/>
+          <rect x="-12" y="-42" width="24" height="4" rx="1.5" fill="#a0a090"/>
+          <rect x="-12" y="-42" width="24" height="1.5" rx=".5" fill="#b8b8a8"/>
+          <circle cx="11" cy="-40" r="2.2" fill="#888880"/>
+          <path d="M 7,-42 C 7,-47 13,-47 13,-42 Z" fill="#a0a090"/>
+          <ellipse cx="-4" cy="-44" rx="5"   ry="3"   fill="#f0ede8"/>
+          <ellipse cx=" 3" cy="-43" rx="6"   ry="3.5" fill="#ece8e0"/>
+          <ellipse cx="-1" cy="-46" rx="4"   ry="2.5" fill="#f5f2ee"/>
+          <ellipse cx=" 5" cy="-45.5" rx="3.5" ry="2.5" fill="#ffffff" opacity=".8"/>
+          <path d="M 10,-38 C 11,-36 11,-33 10,-31" stroke="#ece8e0" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <path d="M -10,-38 C -11,-36 -11,-34 -10,-32" stroke="#ece8e0" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <path d="M -9,-38 Q 0,-35 9,-38" fill="#c88808" opacity=".55"/>
+        </g>
+      </g><!-- end stein 2 wrapper -->
 
       <!-- STEIN 3 -->
       <g transform="translate(252,94) rotate(-3,0,0)">
@@ -850,7 +858,6 @@
         <ellipse cx=" 0" cy="-41.5" rx="2.8" ry="1.8" fill="#ffffff" opacity=".7"/>
         <path d="M -9,-37 Q 0,-34 9,-37" fill="#c88808" opacity=".5"/>
       </g>
-    </g>
   </svg>
 </div>
 
@@ -893,7 +900,7 @@
   </div>
 
   <div class="buttons">
-    <a href="https://docs.google.com/forms/d/e/1FAIpQLSdS3PqhtO1LpZfeKgQKULpo4iRfRZaJG4ymUss4hgQnXnSOMQ/viewform?usp=sharing&ouid=115993000194995320861" class="btn btn-primary">RSVP</a>
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSdS3PqhtO1LpZfeKgQKULpo4iRfRZaJG4ymUss4hgQnXnSOMQ/viewform?usp=sharing&ouid=115993000194995320861" target="_blank" rel="noopener" class="btn btn-primary">RSVP</a>
     <a href="#" class="btn btn-secondary">Registry</a>
     <a href="lodging.html" class="btn btn-secondary">Lodging</a>
   </div>
