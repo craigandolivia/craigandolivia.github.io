@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Craig & Olivia</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      width: 100%; height: 100%;
+      background: #06081a;
+      overflow: hidden;
+    }
+
+    #scene {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      /* No CSS smoothing — JS draws PS×PS blocks so each "pixel" is already square */
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+    }
+
+    .back-link {
+      position: fixed;
+      top: 1.2rem;
+      left: 1.2rem;
+      z-index: 10;
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      text-decoration: none;
+      font-family: 'Jost', sans-serif;
+      font-size: .65rem;
+      font-weight: 400;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: #7070a8;
+      transition: color .25s;
+    }
+    .back-link:hover { color: #c0c8f8; }
+
+    #content-area {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      z-index: 5;
+    }
+  </style>
+</head>
+<body>
+
+  <a href="index.html" class="back-link" aria-label="Back">
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+      <path d="M10 3L5 8L10 13" stroke="currentColor" stroke-width="1.6"
+            stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <span>Back</span>
+  </a>
+
+  <canvas id="scene"></canvas>
+  <div id="content-area"></div>
+
+<script>
+(function () {
+
+  /* ═══════════════════════════════════════════════════════════════
+     KEY FIX: Every "pixel" is drawn as a PS×PS square block on the
+     canvas.  The canvas itself is sized to exactly fill the viewport
+     in raw device pixels, so nothing is stretched.  Because we use
+     equal width and height for every block, circles are always
+     circles — no ovals regardless of screen shape or ratio.
+  ═══════════════════════════════════════════════════════════════ */
+
+  const cv  = document.getElementById('scene');
+  const ctx = cv.getContext('2d');
+
+  /* Physical viewport size */
+  const VW = window.innerWidth;
+  const VH = window.innerHeight;
+
+  /* KEY CHANGE: use a much smaller PS so the logical resolution is large,
+     giving lots of sky pixels and making the moon small in context.
+     PS=2 → ~480×270 on 1080p screens; ~200×422 on mobile.
+     Each block is still a perfect 2×2 square so circles stay circular. */
+  const PS = 2;
+
+  /* Logical (game) resolution */
+  const NW = Math.ceil(VW / PS);
+  const NH = Math.ceil(VH / PS);
+
+  cv.width  = NW * PS;   /* canvas in real pixels */
+  cv.height = NH * PS;
+  ctx.imageSmoothingEnabled = false;
+
+  /* ── pixel helper ─────────────────────────────────────────────── */
+  function px(x, y, col) {
+    if (x < 0 || x >= NW || y < 0 || y >= NH) return;
+    ctx.fillStyle = col;
+    ctx.fillRect(x * PS, y * PS, PS, PS);
+  }
+
+  /* ── fill rect in game coords ─────────────────────────────────── */
+  function fillRect(x, y, w, h, col) {
+    ctx.fillStyle = col;
+    ctx.fillRect(x * PS, y * PS, w * PS, h * PS);
+  }
+
+  /* ── fill row ─────────────────────────────────────────────────── */
+  function fillRow(y, col) {
+    ctx.fillStyle = col;
+    ctx.fillRect(0, y * PS, NW * PS, PS);
+  }
+
+  /* ── Colour palette — dark blue / purple eclipse ──────────────── */
+  const C = {
+    sky_top:    '#06081a',
+    sky_bot:    '#0e1840',
+
+    st_bright:  '#dde4ff',
+    st_mid:     '#7888c8',
+    st_dim:     '#364070',
+    st_blue:    '#4858a0',
+
+    /* Moon lit crescent */
+    mlit0:  '#ecf0ff',
+    mlit1:  '#c0cef8',
+    mlit2:  '#8898d8',
+    msurf0: '#6070b0',
+    msurf1: '#8898cc',
+    mcrtr:  '#4050a0',
+    mcrtl:  '#c8d8ff',
+
+    /* Eclipse umbra — deep indigo → violet → blue-purple */
+    umb0:  '#04041c',
+    umb1:  '#080840',
+    umb2:  '#100c60',
+    umb3:  '#1e1480',
+    umb4:  '#3020a8',
+    umb5:  '#4830c0',
+    umb6:  '#6048d0',
+    umb7:  '#7860d8',
+
+    /* Glow halo */
+    glow0:  '#0a0830',
+    glow1:  '#180e58',
+    glow2:  '#2e1c98',
+    glow3:  '#4830b8',
+    glow4:  '#6048cc',
+
+    /* Ground & grass */
+    ground0: '#05100a',
+    ground1: '#0b1e10',
+    grass0:  '#0e1e0a',
+    grass1:  '#1a3010',
+    grass2:  '#283e14',
+    grass3:  '#365418',
+    grass4:  '#466a1e',
+    grass_lit:'#5a8828',
+  };
+
+  /* ── Moon geometry (40% smaller than previous MR=32 → MR≈19) ─── */
+  const MX = Math.floor(NW / 2);
+  const MY = Math.round(NH * 0.17);    /* near the top */
+  const MR = 19;                        /* radius in game pixels */
+
+  /* Earth shadow disc — offset left so crescent shows on right */
+  const SX = MX - MR;
+  const SY = MY;
+  const SR = Math.round(MR * 1.42);    /* slightly larger than moon */
+
+  /* ── geometry helpers ─────────────────────────────────────────── */
+  function inCircle(x, y, cx, cy, r) {
+    const dx = x - cx, dy = y - cy;
+    return dx * dx + dy * dy <= r * r;
+  }
+  function dist(x, y, cx, cy) {
+    const dx = x - cx, dy = y - cy;
+    return Math.sqrt(dx * dx + dy * dy);
+  }
+
+  /* ════════════════════════════════════════════════════════════════
+     DRAW ORDER
+  ════════════════════════════════════════════════════════════════ */
+
+  /* 1. SKY gradient ────────────────────────────────────────────── */
+  const grassBase = NH - Math.round(NH * 0.14);  /* ground starts here */
+  for (let y = 0; y < grassBase; y++) {
+    const t = y / grassBase;
+    const r = Math.round(6  + t * 8);
+    const g = Math.round(8  + t * 16);
+    const b = Math.round(26 + t * 38);
+    ctx.fillStyle = `rgb(${r},${g},${b})`;
+    ctx.fillRect(0, y * PS, NW * PS, PS);
+  }
+
+  /* 2. STARS ───────────────────────────────────────────────────── */
+  {
+    let seed = 42;
+    function rand() {
+      seed = (seed * 1664525 + 1013904223) & 0xffffffff;
+      return (seed >>> 0) / 0xffffffff;
+    }
+    const starCount = Math.floor(NW * grassBase / 48);
+    for (let i = 0; i < starCount; i++) {
+      const x = Math.floor(rand() * NW);
+      const y = Math.floor(rand() * (grassBase - 4));
+      /* skip stars inside the glow zone around moon */
+      if (inCircle(x, y, MX, MY, MR + 14)) continue;
+      const br = rand();
+      if      (br > 0.93) px(x, y, C.st_bright);
+      else if (br > 0.78) px(x, y, C.st_mid);
+      else if (br > 0.58) px(x, y, C.st_dim);
+      else                px(x, y, C.st_blue);
+    }
+    /* sparkle crosses */
+    [[Math.floor(NW*0.06), Math.floor(NH*0.07)],
+     [Math.floor(NW*0.94), Math.floor(NH*0.05)],
+     [Math.floor(NW*0.08), Math.floor(NH*0.55)],
+     [Math.floor(NW*0.92), Math.floor(NH*0.52)],
+    ].forEach(([sx, sy]) => {
+      if (sy >= grassBase) return;
+      px(sx,   sy,   C.st_bright);
+      px(sx-1, sy,   C.st_dim);
+      px(sx+1, sy,   C.st_dim);
+      px(sx,   sy-1, C.st_dim);
+      px(sx,   sy+1, C.st_dim);
+    });
+  }
+
+  /* 3. GLOW HALO around moon ───────────────────────────────────── */
+  for (let y = MY - MR - 15; y <= MY + MR + 15; y++) {
+    for (let x = MX - MR - 15; x <= MX + MR + 15; x++) {
+      if (inCircle(x, y, MX, MY, MR)) continue;
+      const d = dist(x, y, MX, MY) - MR;
+      if (d <= 0 || d > 15) continue;
+      if      (d <= 2)  px(x, y, C.glow4);
+      else if (d <= 4)  px(x, y, C.glow3);
+      else if (d <= 7)  px(x, y, C.glow2);
+      else if (d <= 11) px(x, y, C.glow1);
+      else              px(x, y, C.glow0);
+    }
+  }
+
+  /* 4. MOON BODY ───────────────────────────────────────────────── */
+  /* Surface features (relative to moon centre), scaled to MR */
+  const mares = [
+    [-5, -4, 4, 3],
+    [-2,  5, 5, 3],
+    [ 4, -3, 3, 2],
+    [ 1,  1, 2, 2],
+    [-8,  1, 2, 2],
+    [ 6,  4, 2, 2],
+  ];
+  const craters = [
+    [ 7, -8, 2],
+    [-8,  7, 2],
+    [ 2, 10, 1],
+    [10,  1, 2],
+    [-4,-10, 1],
+    [-10,-1, 2],
+    [ 9, -4, 1],
+    [-6,  9, 1],
+    [ 0, -7, 1],
+    [ 5,  5, 1],
+    [-9, -5, 1],
+  ];
+
+  function getSurface(rx, ry) {
+    for (const [dx, dy, rx2, ry2] of mares) {
+      const nx = (rx-dx)/rx2, ny = (ry-dy)/ry2;
+      if (nx*nx + ny*ny <= 1) return C.msurf0;
+    }
+    for (const [dx, dy, r] of craters) {
+      const d = dist(rx, ry, dx, dy);
+      if (d <= r * 0.5)              return C.mcrtr;
+      if (d <= r)                     return C.msurf1;
+      if (d <= r + 1 && ry < dy)     return C.mcrtl;
+    }
+    return C.msurf1;
+  }
+
+  for (let y = MY - MR; y <= MY + MR; y++) {
+    for (let x = MX - MR; x <= MX + MR; x++) {
+      /* exact circle test — same radius in x and y → always circular */
+      if (!inCircle(x, y, MX, MY, MR)) continue;
+
+      const moonDist = dist(x, y, MX, MY);
+      const edgeDist = MR - moonDist;
+      const shadowD  = dist(x, y, SX, SY);
+      let col;
+
+      if (shadowD <= SR - 5) {
+        /* deep umbra */
+        const t = shadowD / (SR - 5);
+        if      (t < 0.22) col = C.umb0;
+        else if (t < 0.44) col = C.umb1;
+        else if (t < 0.66) col = C.umb2;
+        else               col = C.umb3;
+        if ((x + y * 2) % 4 === 0) col = t < 0.5 ? C.umb1 : C.umb4;
+      } else if (shadowD <= SR) {
+        /* outer umbra → purple */
+        const t = (shadowD - (SR - 5)) / 5;
+        col = t < 0.5 ? C.umb5 : C.umb6;
+        if ((x * 2 + y) % 3 === 0) col = C.umb4;
+      } else {
+        /* lit crescent — surface texture */
+        const litT = Math.min(1, (shadowD - SR) / 8);
+        const limbT = edgeDist < 3 ? edgeDist / 3 : 1;
+        let crCol = null;
+        for (const [dx, dy, r] of craters) {
+          const d = dist(x - MX, y - MY, dx, dy);
+          if (d <= r * 0.5)                       { crCol = C.mcrtr; break; }
+          if (d <= r && (y-MY) > dy)               { crCol = C.mcrtr; break; }
+          if (d <= r+1 && (y-MY) <= dy && litT>0.4){ crCol = C.mcrtl; break; }
+        }
+        if (crCol) {
+          col = crCol;
+        } else {
+          const surf = getSurface(x - MX, y - MY);
+          if (litT < 0.14) {
+            col = C.mlit2;
+          } else if (surf === C.msurf0) {
+            col = litT > 0.6 ? C.msurf0 : C.mlit2;
+          } else {
+            if      (limbT < 0.35) col = C.mlit2;
+            else if (limbT < 0.70) col = C.mlit1;
+            else                   col = litT > 0.75 ? C.mlit0 : C.mlit1;
+          }
+        }
+      }
+
+      /* 1-px dithered edge */
+      if (edgeDist <= 1.2 && (x + y) % 2 === 0)
+        col = shadowD > SR ? C.glow4 : C.umb7;
+
+      px(x, y, col);
+    }
+  }
+
+  /* 5. GROUND & GRASS ──────────────────────────────────────────── */
+  /* Solid ground fill */
+  for (let y = grassBase; y < NH; y++) {
+    const t = (y - grassBase) / (NH - grassBase);
+    fillRow(y, t < 0.25 ? C.ground1 : C.ground0);
+  }
+  /* Horizon line */
+  fillRow(grassBase, '#081408');
+
+  /* Grass blades */
+  {
+    let seed2 = 17;
+    function rand2() {
+      seed2 = (seed2 * 22695477 + 1) & 0xffffffff;
+      return (seed2 >>> 0) / 0xffffffff;
+    }
+    for (let x = 0; x < NW; x++) {
+      const h    = 2 + Math.floor(rand2() * 5);
+      const lean = Math.floor(rand2() * 3) - 1;
+      const br   = rand2();
+      const tipC = br > 0.65 ? C.grass_lit : C.grass4;
+      const midC = br > 0.45 ? C.grass3    : C.grass2;
+      for (let dy = 0; dy < h; dy++) {
+        const bx  = x + (dy > h / 2 ? lean : 0);
+        const by  = grassBase - 1 - dy;
+        const col = dy === h - 1 ? tipC : (dy > h / 2 ? midC : C.grass1);
+        px(bx, by, col);
+      }
+      /* clump filler */
+      if (rand2() > 0.66) {
+        const h2  = 1 + Math.floor(rand2() * 3);
+        const bx2 = x + (rand2() > 0.5 ? 1 : -1);
+        for (let dy = 0; dy < h2; dy++)
+          px(bx2, grassBase - 1 - dy, dy === h2-1 ? C.grass3 : C.grass0);
+      }
+    }
+  }
+
+  /* 6. MOONLIGHT column on grass ──────────────────────────────── */
+  const spread = Math.round(MR * 1.2);
+  for (let x = MX - spread; x <= MX + spread; x++) {
+    const t = 1 - Math.abs(x - MX) / spread;
+    if (t > 0.55) {
+      px(x, grassBase - 4, C.grass_lit);
+      /* tiny purple-blue shimmer at ground level */
+      ctx.fillStyle = 'rgba(72,56,180,0.10)';
+      ctx.fillRect(x * PS, grassBase * PS, PS, PS * 3);
+    } else if (t > 0.28) {
+      px(x, grassBase - 3, C.grass3);
+    }
+  }
+
+})();
+</script>
+
+</body>
+</html>
