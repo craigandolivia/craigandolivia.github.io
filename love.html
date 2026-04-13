@@ -404,7 +404,7 @@
   sprite.src = 'Mystical_druid_with_glowing_energy.png';
   sprite.onload = () => {
     /* Target height: ~35% of the canvas physical height */
-    const targetH = Math.round(cv.height * 0.35);
+    const targetH = Math.round(cv.height * 0.25);
     /* Preserve aspect ratio */
     const scale   = targetH / sprite.naturalHeight;
     const targetW = Math.round(sprite.naturalWidth * scale);
@@ -416,7 +416,7 @@
 
     /* Keep pixel-art crispness — no smoothing on the sprite either */
     ctx.imageSmoothingEnabled = false;
-    ctx.drawImage(sprite, drawX, drawY, targetW, targetH);
+    ctx.drawImage(sprite, drawX, drawY*1.25, targetW, targetH);
   };
 
   /* Graceful fallback: if the image can't be found just skip it */
