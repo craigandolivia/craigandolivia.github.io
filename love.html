@@ -404,7 +404,7 @@
   sprite.src = 'druid.png';
   sprite.onload = () => {
     /* Target height: ~35% of the canvas physical height */
-    const targetH = Math.round(cv.height * 0.28);
+    const targetH = Math.round(cv.height * 0.30);
     /* Preserve aspect ratio */
     const scale   = targetH / sprite.naturalHeight;
     const targetW = Math.round(sprite.naturalWidth * scale);
@@ -428,7 +428,7 @@
   sprite2.src = 'orc.png';
   sprite2.onload = () => {
     /* Target height: ~35% of the canvas physical height */
-    const targetH = Math.round(cv.height * 0.28);
+    const targetH = Math.round(cv.height * 0.26);
     /* Preserve aspect ratio */
     const scale   = targetH / sprite2.naturalHeight;
     const targetW = Math.round(sprite2.naturalWidth * scale);
@@ -439,7 +439,7 @@
 
     /* Keep pixel-art crispness — no smoothing on the sprite either */
     ctx.imageSmoothingEnabled = false;
-    ctx.drawImage(sprite2, drawX, drawY*1.15, targetW, targetH);
+    ctx.drawImage(sprite2, drawX, drawY*1.10, targetW, targetH);
   };
 
   /* Graceful fallback: if the image can't be found just skip it */
