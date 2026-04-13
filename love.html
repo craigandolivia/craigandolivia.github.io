@@ -421,7 +421,7 @@
 
   /* Graceful fallback: if the image can't be found just skip it */
   sprite.onerror = () => {
-    console.warn('Druid sprite not found — place Mystical_druid_with_glowing_energy.png in the repo root.');
+    console.warn('Druid sprite not found — place druid.png in the repo root.');
   };
 
     const sprite2 = new Image();
@@ -433,7 +433,7 @@
     const scale   = targetH / sprite2.naturalHeight;
     const targetW = Math.round(sprite2.naturalWidth * scale);
 
-    const drawX = const drawX = Math.round(cv.width * 0.01) - Math.round(targetW / 2);
+    const drawX = const drawX = -1*Math.round(targetW / 2);
     /* Vertical: feet sit exactly on the grass baseline */
     const drawY = grassBase * PS - targetH;
 
@@ -443,8 +443,31 @@
   };
 
   /* Graceful fallback: if the image can't be found just skip it */
-  sprite.onerror = () => {
-    console.warn('Druid sprite not found — place Mystical_druid_with_glowing_energy.png in the repo root.');
+  sprite2.onerror = () => {
+    console.warn('Orc sprite not found — place orc.png in the repo root.');
+  };
+
+      const sprite3 = new Image();
+  sprite3.src = 'chatbubble.png';
+  sprite3.onload = () => {
+    /* Target height: ~35% of the canvas physical height */
+    const targetH = Math.round(cv.height * 0.26);
+    /* Preserve aspect ratio */
+    const scale   = targetH / sprite3.naturalHeight;
+    const targetW = Math.round(sprite3.naturalWidth * scale);
+
+    const drawX = const drawX = -1*Math.round(targetW / 2);
+    /* Vertical: feet sit exactly on the grass baseline */
+    const drawY = grassBase * PS - targetH;
+
+    /* Keep pixel-art crispness — no smoothing on the sprite either */
+    ctx.imageSmoothingEnabled = false;
+    ctx.drawImage(sprite3, drawX, drawY*.8, targetW, targetH);
+  };
+
+  /* Graceful fallback: if the image can't be found just skip it */
+  sprite2.onerror = () => {
+    console.warn('chatbubble sprite not found — place orc.png in the repo root.');
   };
 
 })();
