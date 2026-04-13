@@ -433,7 +433,7 @@
     const scale   = targetH / sprite2.naturalHeight;
     const targetW = Math.round(sprite2.naturalWidth * scale);
 
-    const drawX = const drawX = -1*Math.round(targetW / 2);
+    const drawX = -1*Math.round(targetW / 2);
     /* Vertical: feet sit exactly on the grass baseline */
     const drawY = grassBase * PS - targetH;
 
@@ -456,7 +456,7 @@
     const scale   = targetH / sprite3.naturalHeight;
     const targetW = Math.round(sprite3.naturalWidth * scale);
 
-    const drawX = const drawX = -1*Math.round(targetW / 2);
+    const drawX = -1*Math.round(targetW / 2);
     /* Vertical: feet sit exactly on the grass baseline */
     const drawY = grassBase * PS - targetH;
 
@@ -466,7 +466,7 @@
   };
 
   /* Graceful fallback: if the image can't be found just skip it */
-  sprite2.onerror = () => {
+  sprite3.onerror = () => {
     console.warn('chatbubble sprite not found — place orc.png in the repo root.');
   };
 
