@@ -206,7 +206,7 @@
       seed = (seed * 1664525 + 1013904223) & 0xffffffff;
       return (seed >>> 0) / 0xffffffff;
     }
-    const starCount = Math.floor(NW * grassBase / 48);
+    const starCount = Math.floor(NW * grassBase / 24);
     for (let i = 0; i < starCount; i++) {
       const x = Math.floor(rand() * NW);
       const y = Math.floor(rand() * (grassBase - 4));
@@ -394,6 +394,35 @@
       px(x, grassBase - 3, C.grass3);
     }
   }
+
+  /* 7. SPRITE — Mystical Druid ─────────────────────────────────────
+     Loaded from the repo root. Drawn AFTER the scene so it sits on
+     top of the grass. The sprite is scaled so it's tall enough to
+     feel present without overwhelming the pixel-art sky.
+     Position: just left of centre, feet on the grass line.         */
+  const sprite = new Image();
+  sprite.src = 'Mystical_druid_with_glowing_energy.png';
+  sprite.onload = () => {
+    /* Target height: ~35% of the canvas physical height */
+    const targetH = Math.round(cv.height * 0.35);
+    /* Preserve aspect ratio */
+    const scale   = targetH / sprite.naturalHeight;
+    const targetW = Math.round(sprite.naturalWidth * scale);
+
+    /* Horizontal centre: 38% from the left (just left of centre) */
+    const drawX = Math.round(cv.width * 0.38) - Math.round(targetW / 2);
+    /* Vertical: feet sit exactly on the grass baseline */
+    const drawY = grassBase * PS - targetH;
+
+    /* Keep pixel-art crispness — no smoothing on the sprite either */
+    ctx.imageSmoothingEnabled = false;
+    ctx.drawImage(sprite, drawX, drawY, targetW, targetH);
+  };
+
+  /* Graceful fallback: if the image can't be found just skip it */
+  sprite.onerror = () => {
+    console.warn('Druid sprite not found — place Mystical_druid_with_glowing_energy.png in the repo root.');
+  };
 
 })();
 </script>
