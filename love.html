@@ -433,7 +433,7 @@
     const scale   = targetH / sprite2.naturalHeight;
     const targetW = Math.round(sprite2.naturalWidth * scale);
 
-    const drawX = 0;
+    const drawX = const drawX = Math.round(cv.width * 0.01) - Math.round(targetW / 2);
     /* Vertical: feet sit exactly on the grass baseline */
     const drawY = grassBase * PS - targetH;
 
