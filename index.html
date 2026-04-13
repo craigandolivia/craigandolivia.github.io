@@ -800,8 +800,9 @@
         <path d="M -9,-37 Q 0,-34 9,-37" fill="#c88808" opacity=".55"/>
       </g>
 
-      <!-- STEIN 2 — click to visit love.html -->
-      <a href="love.html" style="cursor:pointer; pointer-events:all;">
+      <!-- STEIN 2 — click to open password modal -->
+      <g transform="translate(200,94)" onclick="document.getElementById('love-modal').classList.add('open')"
+         style="cursor:pointer; pointer-events:all;">
       <g transform="translate(200,94)">
         <path d="M -11,0 C -12,-9 -12,-27 -11,-40 L 11,-40 C 12,-27 12,-9 11,0 Z" fill="#7888a8"/>
         <path d="M -9,-2 C -10,-11 -10,-27 -9,-38" stroke="#9aacc0" stroke-width="2" fill="none" opacity=".45"/>
@@ -828,7 +829,6 @@
         <path d="M -10,-38 C -11,-36 -11,-34 -10,-32" stroke="#ece8e0" stroke-width="2.5" fill="none" stroke-linecap="round"/>
         <path d="M -9,-38 Q 0,-35 9,-38" fill="#c88808" opacity=".55"/>
       </g>
-      </a>
 
       <!-- STEIN 3 -->
       <g transform="translate(252,94) rotate(-3,0,0)">
@@ -898,6 +898,164 @@
     <a href="lodging.html" class="btn btn-secondary">Lodging</a>
   </div>
 </main>
+
+<!-- ══════════════════════════════════════════
+     PASSWORD MODAL — "Speak Love, and Enter"
+══════════════════════════════════════════ -->
+<div id="love-modal" role="dialog" aria-modal="true" aria-labelledby="modal-msg">
+  <div id="love-modal-box">
+    <p id="modal-msg">Speak Love, and Enter</p>
+    <input id="love-pw" type="password" autocomplete="off"
+           placeholder="···" aria-label="Password" />
+    <p id="love-error" aria-live="polite"></p>
+    <div id="modal-actions">
+      <button id="modal-enter" onclick="checkLovePassword()">Enter</button>
+      <button id="modal-cancel" onclick="closeLoveModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* ── Modal overlay ───────────────────────── */
+  #love-modal {
+    display: none;
+    position: fixed; inset: 0; z-index: 200;
+    background: rgba(6,4,18,.72);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    align-items: center;
+    justify-content: center;
+  }
+  #love-modal.open { display: flex; }
+
+  /* ── Modal box ───────────────────────────── */
+  #love-modal-box {
+    background: #1c1b1b;
+    border: 1px solid #383534;
+    border-radius: 4px;
+    padding: 2.4rem 2.8rem 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.2rem;
+    width: min(340px, 88vw);
+    animation: modalIn .22s ease both;
+  }
+  @keyframes modalIn {
+    from { opacity:0; transform:translateY(12px); }
+    to   { opacity:1; transform:translateY(0); }
+  }
+
+  /* ── Message text ────────────────────────── */
+  #modal-msg {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1.35rem;
+    font-weight: 300;
+    color: #f0ede8;
+    text-align: center;
+    letter-spacing: .02em;
+    line-height: 1.4;
+  }
+
+  /* ── Input ───────────────────────────────── */
+  #love-pw {
+    width: 100%;
+    background: #121110;
+    border: 1px solid #383534;
+    border-radius: 3px;
+    color: #f0ede8;
+    font-family: 'Jost', sans-serif;
+    font-size: .9rem;
+    font-weight: 300;
+    letter-spacing: .18em;
+    text-align: center;
+    padding: .7rem 1rem;
+    outline: none;
+    transition: border-color .2s;
+  }
+  #love-pw:focus { border-color: #6060a0; }
+  #love-pw::placeholder { color: #5a5856; letter-spacing: .15em; }
+
+  /* ── Error text ──────────────────────────── */
+  #love-error {
+    font-family: 'Jost', sans-serif;
+    font-size: .65rem;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: #a05050;
+    min-height: .9rem;
+    text-align: center;
+  }
+
+  /* ── Buttons ─────────────────────────────── */
+  #modal-actions {
+    display: flex;
+    gap: .75rem;
+    width: 100%;
+  }
+  #modal-enter, #modal-cancel {
+    flex: 1;
+    font-family: 'Jost', sans-serif;
+    font-size: .68rem;
+    font-weight: 400;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    padding: .75rem 1rem;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: background .25s, color .25s, transform .15s;
+  }
+  #modal-enter {
+    background: #f0ede8;
+    color: #1c1b1b;
+    border: 1px solid #f0ede8;
+  }
+  #modal-enter:hover  { background: transparent; color: #f0ede8; transform: translateY(-1px); }
+  #modal-cancel {
+    background: transparent;
+    color: #f0ede8;
+    border: 1px solid #383534;
+  }
+  #modal-cancel:hover { border-color: #f0ede8; transform: translateY(-1px); }
+</style>
+
+<script>
+  /* Focus the input when the modal opens */
+  const _modal = document.getElementById('love-modal');
+  const _pw    = document.getElementById('love-pw');
+  const _err   = document.getElementById('love-error');
+
+  new MutationObserver(() => {
+    if (_modal.classList.contains('open')) {
+      _pw.value = '';
+      _err.textContent = '';
+      setTimeout(() => _pw.focus(), 60);
+    }
+  }).observe(_modal, { attributes: true, attributeFilter: ['class'] });
+
+  /* Submit on Enter key */
+  _pw.addEventListener('keydown', e => {
+    if (e.key === 'Enter') checkLovePassword();
+    if (e.key === 'Escape') closeLoveModal();
+  });
+
+  function checkLovePassword() {
+    if (_pw.value === 'krul') {
+      window.location.href = 'love.html';
+    } else {
+      _err.textContent = 'Try again';
+      _pw.value = '';
+      _pw.focus();
+    }
+  }
+
+  function closeLoveModal() {
+    _modal.classList.remove('open');
+    _pw.value = '';
+    _err.textContent = '';
+  }
+</script>
 
 </body>
 </html>
