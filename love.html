@@ -404,7 +404,7 @@
   sprite.src = 'druid.png';
   sprite.onload = () => {
     /* Target height: ~35% of the canvas physical height */
-    const targetH = Math.round(cv.height * 0.30);
+    const targetH = Math.round(cv.height * 0.33);
     /* Preserve aspect ratio */
     const scale   = targetH / sprite.naturalHeight;
     const targetW = Math.round(sprite.naturalWidth * scale);
@@ -428,7 +428,7 @@
   sprite2.src = 'orc.png';
   sprite2.onload = () => {
     /* Target height: ~35% of the canvas physical height */
-    const targetH = Math.round(cv.height * 0.30);
+    const targetH = Math.round(cv.height * 0.33);
     /* Preserve aspect ratio */
     const scale   = targetH / sprite2.naturalHeight;
     const targetW = Math.round(sprite2.naturalWidth * scale);
