@@ -427,14 +427,14 @@
     if (druid && s1) {
       const x = Math.round(cv.width * 0.38) - Math.round(s1.w / 2);
       const y = grassBase * PS - s1.h;
-      ctx.drawImage(druid, x, y * 1.20, s1.w, s1.h);
+      ctx.drawImage(druid, x, y * 1.23, s1.w, s1.h);
     }
 
     /* Sprite 2 — orc, centre */
     if (orc && s2) {
       const x = Math.round(cv.width * 0.50) - Math.round(s2.w / 2);
       const y = grassBase * PS - s2.h;
-      ctx.drawImage(orc, x, y * 1.17, s2.w, s2.h);
+      ctx.drawImage(orc, x, y * 1.20, s2.w, s2.h);
     }
 
     /* Sprite 3 — chatbubble anchored to top-right of orc */
@@ -442,8 +442,8 @@
       const orc_x         = Math.round(cv.width * 0.50) - Math.round(s2.w / 2);
       const orc_y         = grassBase * PS - s2.h;
       const adjusted_orc_y = orc_y * 1.15;
-      const x = orc_x + s2.w - Math.round(s3.w * 0.7);
-      const y = adjusted_orc_y - s3.h + Math.round(s3.h * 0.15);
+      const x = orc_x + s2.w - Math.round(s3.w * 0.2);
+      const y = adjusted_orc_y - s3.h + Math.round(s3.h * 0.35);
       ctx.drawImage(chat, x, y, s3.w, s3.h);
     }
   });
