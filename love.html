@@ -445,14 +445,17 @@
       ctx.drawImage(orc, x, y * 1.15, s2.w, s2.h);
     }
 
-    /* Sprite 3 — chatbubble, just right of orc and slightly higher.
-       We anchor it relative to sprite 2's right edge so it never
-       overlaps regardless of how wide sprite 2 renders.            */
+    /* Sprite 3 — chatbubble anchored to top-right of sprite 2.
+       Left edge of bubble = right edge of orc.
+       Bottom edge of bubble = top edge of orc (sits just above it). */
     if (chat && s3 && s2) {
-      const orc_right = Math.round(cv.width * 0.50) + Math.round(s2.w / 2);
-      const x = orc_right + Math.round(cv.width * 0.01);
-      const y = grassBase * PS - s3.h;
-      ctx.drawImage(chat, x, y * 0.70, s3.w, s3.h);
+      const orc_x    = Math.round(cv.width * 0.50) - Math.round(s2.w / 2);
+      const orc_y    = grassBase * PS - s2.h;
+      const adjusted_orc_y = orc_y * 1.15;   // match the orc's actual draw y
+
+      const x = orc_x + s2.w - Math.round(s3.w * 0.1); // slight overlap on right edge only
+      const y = adjusted_orc_y - s3.h + Math.round(s3.h * 0.15); // sits just above orc top
+      ctx.drawImage(chat, x, y, s3.w, s3.h);
     }
   });
 
