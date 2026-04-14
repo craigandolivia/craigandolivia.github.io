@@ -451,7 +451,7 @@
   sprite3.src = 'chatbubble.png';
   sprite3.onload = () => {
     /* Target height: ~35% of the canvas physical height */
-    const targetH = Math.round(cv.height * 0.26);
+    const targetH = Math.round(cv.height * 0.20);
     /* Preserve aspect ratio */
     const scale   = targetH / sprite3.naturalHeight;
     const targetW = Math.round(sprite3.naturalWidth * scale);
