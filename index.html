@@ -48,6 +48,15 @@
       text-align: center; padding: 2rem;
       display: flex; flex-direction: column; align-items: center; gap: 0;
       animation: fadeUp 1.2s ease both;
+      /* Don't let the container's bounding box (including padding)
+         intercept clicks meant for the stein beneath it */
+      pointer-events: none;
+    }
+    /* Re-enable pointer events on everything that needs to be clickable */
+    .container .btn,
+    .container a,
+    .container button {
+      pointer-events: auto;
     }
 
     /* On screens wide enough to show the picnic table (>900px),
