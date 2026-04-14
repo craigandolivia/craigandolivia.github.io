@@ -453,7 +453,7 @@
       const orc_y    = grassBase * PS - s2.h;
       const adjusted_orc_y = orc_y * 1.15;   // match the orc's actual draw y
 
-      const x = orc_x + s2.w - Math.round(s3.w * 0.4); // slight overlap on right edge only
+      const x = orc_x + s2.w - Math.round(s3.w * 0.7); // slight overlap on right edge only
       const y = adjusted_orc_y - s3.h + Math.round(s3.h * 0.15); // sits just above orc top
       ctx.drawImage(chat, x, y, s3.w, s3.h);
     }
