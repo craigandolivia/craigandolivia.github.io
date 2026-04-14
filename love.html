@@ -456,13 +456,13 @@
     const scale   = targetH / sprite3.naturalHeight;
     const targetW = Math.round(sprite3.naturalWidth * scale);
 
-    const drawX = Math.round(cv.width * 0.57) - Math.round(targetW / 2);
+    const drawX = Math.round(cv.width * 0.59) - Math.round(targetW / 2);
     /* Vertical: feet sit exactly on the grass baseline, lifted slightly higher */
     const drawY = grassBase * PS - targetH;
 
     /* Keep pixel-art crispness — no smoothing on the sprite either */
     ctx.imageSmoothingEnabled = false;
-    ctx.drawImage(sprite3, drawX, drawY*0.85, targetW, targetH);
+    ctx.drawImage(sprite3, drawX, drawY*0.82, targetW, targetH);
   };
 
   /* Graceful fallback: if the image can't be found just skip it */
