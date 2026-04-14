@@ -50,6 +50,20 @@
       animation: fadeUp 1.2s ease both;
     }
 
+    /* On screens wide enough to show the picnic table (>900px),
+       add bottom padding so the buttons never overlap the table.
+       The table SVG is 195px tall, plus some breathing room = 220px. */
+    @media (min-width: 901px) {
+      .container { padding-bottom: 220px; }
+    }
+
+    /* On very short viewports, allow the page to scroll rather than
+       squishing content into the table area. */
+    @media (max-height: 700px) {
+      body { justify-content: flex-start; padding-top: 2rem; }
+      .container { padding-bottom: 240px; }
+    }
+
     .names {
       font-family: 'Cormorant Garamond', serif;
       font-size: clamp(3.68rem, 11.5vw, 7.48rem);

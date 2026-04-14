@@ -395,80 +395,66 @@
     }
   }
 
-  /* 7. SPRITE — Mystical Druid ─────────────────────────────────────
-     Loaded from the repo root. Drawn AFTER the scene so it sits on
-     top of the grass. The sprite is scaled so it's tall enough to
-     feel present without overwhelming the pixel-art sky.
-     Position: just left of centre, feet on the grass line.         */
-  const sprite = new Image();
-  sprite.src = 'druid.png';
-  sprite.onload = () => {
-    /* Target height: ~35% of the canvas physical height */
-    const targetH = Math.round(cv.height * 0.33);
-    /* Preserve aspect ratio */
-    const scale   = targetH / sprite.naturalHeight;
-    const targetW = Math.round(sprite.naturalWidth * scale);
+  /* 7. SPRITES — load all three together, then position responsively
+     so they never overlap regardless of screen width.               */
+  function loadImage(src) {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload  = () => resolve(img);
+      img.onerror = () => { console.warn(src + ' not found'); resolve(null); };
+      img.src = src;
+    });
+  }
 
-    /* Horizontal centre: 38% from the left (just left of centre) */
-    const drawX = Math.round(cv.width * 0.38) - Math.round(targetW / 2);
-    /* Vertical: feet sit exactly on the grass baseline */
-    const drawY = grassBase * PS - targetH;
-
-    /* Keep pixel-art crispness — no smoothing on the sprite either */
+  Promise.all([
+    loadImage('druid.png'),
+    loadImage('orc.png'),
+    loadImage('chatbubble.png'),
+  ]).then(([druid, orc, chat]) => {
     ctx.imageSmoothingEnabled = false;
-    ctx.drawImage(sprite, drawX, drawY*1.17, targetW, targetH);
-  };
 
-  /* Graceful fallback: if the image can't be found just skip it */
-  sprite.onerror = () => {
-    console.warn('Druid sprite not found — place druid.png in the repo root.');
-  };
+    /* Max sprite height: no taller than 33% of canvas height,
+       AND no wider than 20% of canvas width (keeps them from
+       crowding on narrow / portrait screens).                  */
+    function spriteSize(img, heightFrac, widthFrac) {
+      if (!img) return null;
+      const maxH = cv.height * heightFrac;
+      const maxW = cv.width  * widthFrac;
+      const byH  = maxH;
+      const byW  = maxW * (img.naturalHeight / img.naturalWidth);
+      const h    = Math.round(Math.min(byH, byW));
+      const w    = Math.round(h * (img.naturalWidth / img.naturalHeight));
+      return { w, h };
+    }
 
-    const sprite2 = new Image();
-  sprite2.src = 'orc.png';
-  sprite2.onload = () => {
-    /* Target height: ~35% of the canvas physical height */
-    const targetH = Math.round(cv.height * 0.33);
-    /* Preserve aspect ratio */
-    const scale   = targetH / sprite2.naturalHeight;
-    const targetW = Math.round(sprite2.naturalWidth * scale);
+    const s1 = spriteSize(druid, 0.33, 0.20);
+    const s2 = spriteSize(orc,   0.33, 0.20);
+    const s3 = spriteSize(chat,  0.20, 0.15);
 
-    const drawX = Math.round(cv.width * 0.48) - Math.round(targetW / 2);
-    /* Vertical: feet sit exactly on the grass baseline */
-    const drawY = grassBase * PS - targetH;
+    /* Sprite 1 — druid, just left of centre */
+    if (druid && s1) {
+      const x = Math.round(cv.width * 0.38) - Math.round(s1.w / 2);
+      const y = grassBase * PS - s1.h;
+      ctx.drawImage(druid, x, y * 1.17, s1.w, s1.h);
+    }
 
-    /* Keep pixel-art crispness — no smoothing on the sprite either */
-    ctx.imageSmoothingEnabled = false;
-    ctx.drawImage(sprite2, drawX, drawY*1.15, targetW, targetH);
-  };
+    /* Sprite 2 — orc, centre */
+    if (orc && s2) {
+      const x = Math.round(cv.width * 0.50) - Math.round(s2.w / 2);
+      const y = grassBase * PS - s2.h;
+      ctx.drawImage(orc, x, y * 1.15, s2.w, s2.h);
+    }
 
-  /* Graceful fallback: if the image can't be found just skip it */
-  sprite2.onerror = () => {
-    console.warn('Orc sprite not found — place orc.png in the repo root.');
-  };
-
-      const sprite3 = new Image();
-  sprite3.src = 'chatbubble.png';
-  sprite3.onload = () => {
-    /* Target height: ~35% of the canvas physical height */
-    const targetH = Math.round(cv.height * 0.20);
-    /* Preserve aspect ratio */
-    const scale   = targetH / sprite3.naturalHeight;
-    const targetW = Math.round(sprite3.naturalWidth * scale);
-
-    const drawX = Math.round(cv.width * 0.59) - Math.round(targetW / 2);
-    /* Vertical: feet sit exactly on the grass baseline, lifted slightly higher */
-    const drawY = grassBase * PS - targetH;
-
-    /* Keep pixel-art crispness — no smoothing on the sprite either */
-    ctx.imageSmoothingEnabled = false;
-    ctx.drawImage(sprite3, drawX, drawY*0.70, targetW, targetH);
-  };
-
-  /* Graceful fallback: if the image can't be found just skip it */
-  sprite3.onerror = () => {
-    console.warn('chatbubble sprite not found — place orc.png in the repo root.');
-  };
+    /* Sprite 3 — chatbubble, just right of orc and slightly higher.
+       We anchor it relative to sprite 2's right edge so it never
+       overlaps regardless of how wide sprite 2 renders.            */
+    if (chat && s3 && s2) {
+      const orc_right = Math.round(cv.width * 0.50) + Math.round(s2.w / 2);
+      const x = orc_right + Math.round(cv.width * 0.01);
+      const y = grassBase * PS - s3.h;
+      ctx.drawImage(chat, x, y * 0.70, s3.w, s3.h);
+    }
+  });
 
 })();
 </script>
