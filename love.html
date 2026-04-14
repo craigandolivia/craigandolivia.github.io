@@ -421,20 +421,20 @@
 
     const s1 = spriteSize(druid, 0.37);
     const s2 = spriteSize(orc,   0.37);
-    const s3 = spriteSize(chat,  0.18);
+    const s3 = spriteSize(chat,  0.12);
 
     /* Sprite 1 — druid, just left of centre */
     if (druid && s1) {
       const x = Math.round(cv.width * 0.38) - Math.round(s1.w / 2);
       const y = grassBase * PS - s1.h;
-      ctx.drawImage(druid, x, y * 1.14, s1.w, s1.h);
+      ctx.drawImage(druid, x, y * 1.20, s1.w, s1.h);
     }
 
     /* Sprite 2 — orc, centre */
     if (orc && s2) {
       const x = Math.round(cv.width * 0.50) - Math.round(s2.w / 2);
       const y = grassBase * PS - s2.h;
-      ctx.drawImage(orc, x, y * 1.12, s2.w, s2.h);
+      ctx.drawImage(orc, x, y * 1.17, s2.w, s2.h);
     }
 
     /* Sprite 3 — chatbubble anchored to top-right of orc */
