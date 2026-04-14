@@ -395,10 +395,7 @@
     }
   }
 
-  /* 7. SPRITES — load all three together, then position responsively.
-     Size is based on canvas HEIGHT only — sprites stay large at every
-     screen size. On narrow screens we spread them further apart
-     proportionally rather than shrinking them down.                  */
+  /* 7. SPRITES — load all three together */
   function loadImage(src) {
     return new Promise((resolve, reject) => {
       const img = new Image();
@@ -415,8 +412,6 @@
   ]).then(([druid, orc, chat]) => {
     ctx.imageSmoothingEnabled = false;
 
-    /* Size sprites purely by height fraction — no width cap.
-       This keeps them large and consistent across all screens. */
     function spriteSize(img, heightFrac) {
       if (!img) return null;
       const h = Math.round(cv.height * heightFrac);
@@ -424,43 +419,31 @@
       return { w, h };
     }
 
-    const s1 = spriteSize(druid, 0.42);   // druid  — 42% of canvas height
-    const s2 = spriteSize(orc,   0.42);   // orc    — 42% of canvas height
-    const s3 = spriteSize(chat,  0.26);   // bubble — 26% of canvas height
+    const s1 = spriteSize(druid, 0.37);
+    const s2 = spriteSize(orc,   0.37);
+    const s3 = spriteSize(chat,  0.22);
 
-    /* Sprite 2 (orc) is the anchor — always dead centre.
-       Sprite 1 (druid) sits to its left with a gap equal to
-       half of s1.w, so on a wide screen they're well separated
-       and on a narrow screen the gap shrinks naturally but each
-       sprite stays large.                                         */
-    const orc_cx = Math.round(cv.width * 0.50);  // orc centre x
-
-    /* Gap between druid right-edge and orc left-edge:
-       use 6% of canvas width as minimum breathing room.           */
-    const gap = Math.round(cv.width * 0.06);
-
-    /* Sprite 1 — druid */
+    /* Sprite 1 — druid, just left of centre */
     if (druid && s1) {
-      const x = orc_cx - Math.round(s2.w / 2) - gap - s1.w;
+      const x = Math.round(cv.width * 0.38) - Math.round(s1.w / 2);
       const y = grassBase * PS - s1.h;
       ctx.drawImage(druid, x, y * 1.17, s1.w, s1.h);
     }
 
-    /* Sprite 2 — orc */
+    /* Sprite 2 — orc, centre */
     if (orc && s2) {
-      const x = orc_cx - Math.round(s2.w / 2);
+      const x = Math.round(cv.width * 0.50) - Math.round(s2.w / 2);
       const y = grassBase * PS - s2.h;
       ctx.drawImage(orc, x, y * 1.15, s2.w, s2.h);
     }
 
-    /* Sprite 3 — chatbubble anchored to top-right of orc.
-       Left edge = orc right edge (with a small tail overlap).
-       Bottom edge = near orc top so it reads as a speech bubble. */
+    /* Sprite 3 — chatbubble anchored to top-right of orc */
     if (chat && s3 && s2) {
-      const orc_x          = orc_cx - Math.round(s2.w / 2);
-      const orc_draw_y     = (grassBase * PS - s2.h) * 1.15;
-      const x = orc_x + s2.w - Math.round(s3.w * 0.12);
-      const y = orc_draw_y - s3.h + Math.round(s3.h * 0.15);
+      const orc_x         = Math.round(cv.width * 0.50) - Math.round(s2.w / 2);
+      const orc_y         = grassBase * PS - s2.h;
+      const adjusted_orc_y = orc_y * 1.15;
+      const x = orc_x + s2.w - Math.round(s3.w * 0.7);
+      const y = adjusted_orc_y - s3.h + Math.round(s3.h * 0.15);
       ctx.drawImage(chat, x, y, s3.w, s3.h);
     }
   });
