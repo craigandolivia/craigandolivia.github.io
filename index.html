@@ -39,6 +39,24 @@
       overflow-x: hidden;
     }
 
+    /* On mobile, switch to top-aligned scrollable layout so nothing
+       gets clipped above the fold when content exceeds the viewport */
+    @media (max-width: 900px) {
+      body {
+        justify-content: flex-start;
+        padding-top: clamp(1.5rem, 6vh, 3.5rem);
+        padding-bottom: clamp(2rem, 8vh, 4rem);
+      }
+    }
+
+    /* Also catch short desktop/landscape screens */
+    @media (max-height: 700px) {
+      body {
+        justify-content: flex-start;
+        padding-top: 1.5rem;
+        padding-bottom: 2rem;
+      }
+    }
     /* ── Flora ─────────────────────────────── */
     .flora { position: fixed; pointer-events: none; z-index: 1; }
     .flora-tl { top: 0; left: 0; }
@@ -65,7 +83,7 @@
       pointer-events: auto;
     }
 
-    /* On screens wide enough to show the picnic table (>900px),
+    /* ── Flora ─────────────────────────────── */
        add bottom padding so the buttons never overlap the table.
        The table SVG is 195px tall, plus some breathing room = 220px. */
     @media (min-width: 901px) {
@@ -228,6 +246,98 @@
       padding: .4rem 0;
     }
     #contact-close:hover { color: var(--white); }
+
+    /* FAQ button */
+    .faq-link {
+      margin-top: 1.2rem;
+      font-family: 'Jost', sans-serif;
+      font-size: .86rem;
+      font-weight: 400;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--grey);
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0;
+      transition: color .25s;
+      white-space: nowrap;
+    }
+    .faq-link:hover { color: var(--white); }
+
+    /* FAQ modal */
+    #faq-modal {
+      display: none;
+      position: fixed; inset: 0; z-index: 200;
+      background: rgba(6,4,18,.78);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+    #faq-modal.open { display: flex; }
+    #faq-modal-box {
+      background: #1c1b1b;
+      border: 1px solid #383534;
+      border-radius: 4px;
+      padding: 2.6rem 3rem 2.4rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      width: min(640px, 92vw);
+      max-height: 82vh;
+      overflow-y: auto;
+      animation: fadeUp .22s ease both;
+    }
+    #faq-modal-box::-webkit-scrollbar { width: 4px; }
+    #faq-modal-box::-webkit-scrollbar-track { background: transparent; }
+    #faq-modal-box::-webkit-scrollbar-thumb { background: #383534; border-radius: 2px; }
+    .faq-modal-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.96rem;
+      font-weight: 300;
+      color: var(--white);
+      margin-bottom: 1.8rem;
+      text-align: center;
+    }
+    .faq-item {
+      border-top: 1px solid #383534;
+      padding: 1.2rem 0;
+    }
+    .faq-item:last-of-type { border-bottom: 1px solid #383534; }
+    .faq-q {
+      font-family: 'Jost', sans-serif;
+      font-size: .87rem;
+      font-weight: 400;
+      letter-spacing: .1em;
+      color: var(--white);
+      margin-bottom: .55rem;
+    }
+    .faq-a {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1.15rem;
+      font-weight: 300;
+      color: #a8a4a0;
+      line-height: 1.65;
+    }
+    #faq-close {
+      margin-top: 1.6rem;
+      align-self: center;
+      font-family: 'Jost', sans-serif;
+      font-size: .62rem;
+      font-weight: 400;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--grey);
+      background: none;
+      border: none;
+      cursor: pointer;
+      transition: color .25s;
+      padding: .4rem 0;
+    }
+    #faq-close:hover { color: var(--white); }
   </style>
 </head>
 <body>
@@ -1086,6 +1196,7 @@
     <a href="directions.html" class="btn btn-secondary">Directions</a>
   </div>
 
+  <button class="faq-link" onclick="document.getElementById('faq-modal').classList.add('open')">FAQ</button>
   <button class="contact-link" onclick="document.getElementById('contact-modal').classList.add('open')">Contact Us</button>
 </main>
 
@@ -1259,9 +1370,47 @@
   </div>
 </div>
 
+<!-- FAQ modal -->
+<div id="faq-modal">
+  <div id="faq-modal-box">
+    <p class="faq-modal-title">Frequently Asked Questions</p>
+
+    <div class="faq-item">
+      <p class="faq-q">Who should RSVP?</p>
+      <p class="faq-a">We kindly ask you to complete the form for each invited guest. We're unable to accommodate additional guests in the form of +1's or children, the invite is limited to those addressed on the postage.</p>
+    </div>
+
+    <div class="faq-item">
+      <p class="faq-q">The ceremony is outdoors, what happens if it rains?</p>
+      <p class="faq-a">If weather inhibits the outdoor portion, we will congregate at the reception venue.</p>
+    </div>
+
+    <div class="faq-item">
+      <p class="faq-q">Is there a shuttle between the ceremony and reception venues?</p>
+      <p class="faq-a">No plans currently, there is parking available at both locations. A short 5 minute walk separates them, our recommendation is to park at the reception if able.</p>
+    </div>
+
+    <div class="faq-item">
+      <p class="faq-q">What time does the reception end?</p>
+      <p class="faq-a">10:30 – 11pm.</p>
+    </div>
+
+    <button id="faq-close" onclick="document.getElementById('faq-modal').classList.remove('open')">Close</button>
+  </div>
+</div>
+
 <script>
   document.getElementById('contact-modal').addEventListener('keydown', function(e) {
     if (e.key === 'Escape') this.classList.remove('open');
+  });
+  document.getElementById('faq-modal').addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') this.classList.remove('open');
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      document.getElementById('faq-modal').classList.remove('open');
+      document.getElementById('contact-modal').classList.remove('open');
+    }
   });
 </script>
 
