@@ -24,41 +24,30 @@
       --border: #383534;
     }
 
-    html, body { height: 100%; font-size: 110%; }
+    html { font-size: 110%; }
 
     body {
       background-color: var(--black);
       color: var(--white);
       font-family: 'Jost', sans-serif;
       font-weight: 300;
+      margin: 0;
+      overflow-x: hidden;
+    }
+
+    /* ── Scene wrapper — everything scrolls together ── */
+    .scene {
+      position: relative;
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      min-height: 100vh;
-      overflow-x: hidden;
+      padding: clamp(2rem, 6vh, 4rem) 0 clamp(2rem, 8vh, 5rem);
     }
 
-    /* On mobile, switch to top-aligned scrollable layout so nothing
-       gets clipped above the fold when content exceeds the viewport */
-    @media (max-width: 900px) {
-      body {
-        justify-content: flex-start;
-        padding-top: clamp(1.5rem, 6vh, 3.5rem);
-        padding-bottom: clamp(2rem, 8vh, 4rem);
-      }
-    }
-
-    /* Also catch short desktop/landscape screens */
-    @media (max-height: 700px) {
-      body {
-        justify-content: flex-start;
-        padding-top: 1.5rem;
-        padding-bottom: 2rem;
-      }
-    }
-    /* ── Flora ─────────────────────────────── */
-    .flora { position: fixed; pointer-events: none; z-index: 1; }
+    /* ── Flora — absolute so it scrolls with the page ── */
+    .flora { position: absolute; pointer-events: none; z-index: 1; }
     .flora-tl { top: 0; left: 0; }
     .flora-tr { top: 0; right: 0; }
     .flora-bl { bottom: 0; left: 0; }
@@ -72,29 +61,17 @@
       text-align: center; padding: 2rem;
       display: flex; flex-direction: column; align-items: center; gap: 0;
       animation: fadeUp 1.2s ease both;
-      /* Don't let the container's bounding box (including padding)
-         intercept clicks meant for the stein beneath it */
       pointer-events: none;
     }
-    /* Re-enable pointer events on everything that needs to be clickable */
     .container .btn,
     .container a,
     .container button {
       pointer-events: auto;
     }
 
-    /* ── Flora ─────────────────────────────── */
-       add bottom padding so the buttons never overlap the table.
-       The table SVG is 195px tall, plus some breathing room = 220px. */
+    /* On wide screens keep content clear of the picnic table */
     @media (min-width: 901px) {
       .container { padding-bottom: 220px; }
-    }
-
-    /* On very short viewports, allow the page to scroll rather than
-       squishing content into the table area. */
-    @media (max-height: 700px) {
-      body { justify-content: flex-start; padding-top: 2rem; }
-      .container { padding-bottom: 240px; }
     }
 
     .names {
@@ -342,6 +319,7 @@
 </head>
 <body>
 
+<div class="scene">
 
 <!-- ════════════════════════════════════════════
      BRANCH · TOP-LEFT  —  Red Maple
@@ -1199,6 +1177,7 @@
   <button class="faq-link" onclick="document.getElementById('faq-modal').classList.add('open')">FAQ</button>
   <button class="contact-link" onclick="document.getElementById('contact-modal').classList.add('open')">Contact Us</button>
 </main>
+</div><!-- /.scene -->
 
 <!-- ══════════════════════════════════════════
      PASSWORD MODAL — "Speak Love, and Enter"
